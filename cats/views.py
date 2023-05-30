@@ -1,6 +1,9 @@
 from rest_framework import viewsets
 #from rest_framework.throttling import AnonRateThrottle
 from rest_framework.throttling import ScopedRateThrottle
+#from rest_framework.pagination import PageNumberPagination
+#from rest_framework.pagination import LimitOffsetPagination
+from .pagination import CatsPagination
 
 from .throttling import WorkingHoursRateThrottle
 
@@ -18,6 +21,9 @@ class CatViewSet(viewsets.ModelViewSet):
     #throttle_classes = (AnonRateThrottle,)
     throttle_classes = (WorkingHoursRateThrottle, ScopedRateThrottle)
     throttle_scope = 'low_request'
+    #pagination_class = PageNumberPagination
+    #pagination_class = LimitOffsetPagination
+    pagination_class = CatsPagination 
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
